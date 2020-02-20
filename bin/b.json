@@ -1,0 +1,11 @@
+{
+  "extended": true,
+  "children": {
+    "a: test": {},
+    "b": {
+      "children": {
+        "foo: bar": {}
+      }
+    }
+  }
+}
