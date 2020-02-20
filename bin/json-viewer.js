@@ -2,7 +2,7 @@
 const path = require('path');
 const blessed = require('blessed');
 const contrib = require('blessed-contrib');
-const treetify = require('./treetify.js');
+const treetify = require('../lib/treetify.js');
 var file = '';
 var json = {};
 
@@ -16,12 +16,12 @@ const grid = new contrib.grid({
 	screen: screen
 });
 
-const tree = require('./tree.js')(grid);
-const form = require('./form.js')(grid);
+const tree = require('../lib/tree.js')(grid, 0, 0);
+const edit = require('../lib/edit.js')(grid, 0, 1);
 
 // load tree
 if(process.argv[2]){
-	file = path.join(__dirname, process.argv[2]);
+	file = path.join(process.env.PWD, process.argv[2]);
 	try{
 		json = require(file);
 		tree.setData(treetify(json));
@@ -38,7 +38,7 @@ tree.focus();
 
 screen.key(['tab', 't'], function(ch, key) {
   if(screen.focused == tree.rows)
-    form.focus();
+    edit.focus();
   else
     tree.focus();
 });
