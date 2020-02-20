@@ -1,52 +1,56 @@
 const blessed = require('blessed');
 const contrib = require('blessed-contrib');
-
-const screen = blessed.screen({
-	debug: true
-});
-
+const treetify = require('./treetify.js');
+// const data = require('./test.json');
+const data = {
+	a: [
+		'kenny',
+		'wade',
+		'simba',
+		{
+			b: 'c',
+			d: 'e'
+		}
+	]
+}
+const screen = blessed.screen();
 const grid = new contrib.grid({
 	rows: 2,
 	cols: 1,
 	screen: screen 
 });
 
-const tree = grid.set(0, 0, 1, 1, contrib.tree, {
-	height: '50%',
-	template: {
-		lines: true 
-	},
-	label: 'JSON viewer'
-});
-
-const log = grid.set(1, 0, 1, 1, blessed.log, {
-	keys: true,
-	vi: true,
-	mouse: true,
-	label: 'Log'
-});
-	
-
-tree.on('select', (node) => {
-	log.add(Object.keys(node));
-	log.add(node.position, node.depth);
-});
-const treetify = require('./treetify.js');
-
+const tree = require('./tree.js')(grid, 0, 0);
+const log = require('./log.js')(grid, 1, 0);
 
 tree.focus();
+a = treetify(data);
+debugger;
+tree.setData(a);
 
-const data = treetify(require('../package.json'));
+//trace back to the root
+function trace(node){
+	var now = node;
+	var path = [];
+	for(let i = 0; i <= node.depth; i++){
+		path.push(now.name);
+		now = now.parent;
+	}
+	path.reverse();
+	return path;
+}
 
-tree.setData(data);
+tree.on('select', (node) => {
+	log.add(trace(node));
+});
 
 screen.key(['escape', 'q', 'C-c'], () => process.exit(0));
-screen.key(['tab'], () => {
+screen.key(['tab', 't'], () => {
 	if(screen.focused == tree.rows){
 		log.focus();
 	}else{
 		tree.focus();
 	}
-});
+})
 
 screen.render();
