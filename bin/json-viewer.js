@@ -17,7 +17,7 @@ const grid = new contrib.grid({
 });
 
 const tree = require('../lib/tree.js')(grid, 0, 0);
-const edit = require('../lib/edit.js')(grid, 0, 1);
+const edit = require('../lib/edit.js')(grid, 0, 1, screen);
 
 // load tree
 if(process.argv[2]){
