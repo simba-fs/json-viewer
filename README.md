@@ -1,9 +1,7 @@
 # json-viewer
-<center>
-![img](./example.png)
-</center>
+![img](./example.png)  
 # Introduction
-This is a json viewer written in node.
+This is a json viewer written in node.  
 Graphicalization with blessed.
 
 # usage
