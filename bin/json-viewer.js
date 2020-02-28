@@ -13,12 +13,13 @@ const screen = blessed.screen({
 
 const grid = new contrib.grid({
 	rows: 1,
-	cols: 2,
+//	cols: 2,
+	cols: 1,
 	screen: screen
 });
 
 const tree = require('../lib/tree.js')(grid, 0, 0);
-const edit = require('../lib/edit.js')(grid, 0, 1, screen);
+// const edit = require('../lib/edit.js')(grid, 0, 1, screen);
 
 // load tree
 if(process.argv[2]){
@@ -37,11 +38,13 @@ screen.key(['escape', 'q', 'C-c'], () => {
 
 tree.focus();
 
+/*
 screen.key(['tab', 't'], function(ch, key) {
   if(screen.focused == tree.rows)
     edit.edit.focus();
   else
     tree.focus();
 });
+*/
 
 screen.render();
