@@ -5,35 +5,43 @@ const screen = blessed.screen({
 	debug: true
 });
 
-const grid = new contrib.grid({
-	rows: 3,
-	cols: 1,
-	screen: screen 
+const box = blessed.box({
+	parent: screen,
+	border: 'line',
+	key: true,
+	mouse: true 
 });
 
-const box1 = grid.set(0, 0, 1, 1, blessed.box, {
-	border: {
-		type: 'line'
+const input = blessed.textbox({
+	mouse: true,
+	keys: true,
+	shink: true,
+	style: {
+		bg: '#00aaff'
 	},
-	content: 'box1'
+	parent: box,
+	border: 'line',
+	inputOnFocus: true,
+	height: 3,
 });
-
-const box2 = grid.set(1, 0, 1, 1, blessed.box, {
-	border: {
-		type: 'line'
-	},
-	content: 'box2'
-});
-
-const box3 = grid.set(2, 0, 1, 1, blessed.box, {
-	border: {
-		type: 'line'
-	},
-	content: 'box3'
-});
-
-console.log(screen.children);
 
 screen.key(['escape', 'q', 'C-c'], () => process.exit(0));
+
+screen.key(['v'], () => {
+	screen.debug(Number.parseInt(input.value));
+});
+
+screen.key(['s'], () => {
+	input.setValue('0');
+	screen.render();
+});
+
+screen.key(['a'], () => {
+	let val = Number.parseInt(input.value);
+	if(!Number.isNaN(val)){
+		input.setValue(String(val+1));
+		screen.render();
+	}
+});
 
 screen.render();

@@ -10,6 +10,7 @@ const screen = blessed.screen({
 	title: 'JSON viewer',
 	debug: true 
 });
+
 const grid = new contrib.grid({
 	rows: 1,
 	cols: 2,
@@ -38,7 +39,7 @@ tree.focus();
 
 screen.key(['tab', 't'], function(ch, key) {
   if(screen.focused == tree.rows)
-    edit.focus();
+    edit.edit.focus();
   else
     tree.focus();
 });
